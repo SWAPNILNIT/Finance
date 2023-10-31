@@ -5,9 +5,11 @@ from huggingface_hub import login
 import re
 import torch
 from peft import PeftModel, PeftConfig
+from flask_cors import CORS, cross_origin
 
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app,supports_credentials=True)
 
 # Perform Hugging Face Hub login
 with open ('huggingface.txt','r') as file:
@@ -28,6 +30,7 @@ print("Peft model loaded")
 
 # Define the health endpoint
 @app.route('/finance', methods=['POST'])
+@cross_origin()
 def health_endpoint():
     try:
         # Get the input text from the request JSON
