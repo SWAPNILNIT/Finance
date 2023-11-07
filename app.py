@@ -117,7 +117,7 @@ def health_endpoint():
         result = finance(input_text)
 
         # Return the result as JSON
-        return jsonify({'result': result[0],execution_time:result[1],total_token:result[2]})
+        return jsonify({'result': result[0],'execution time':result[1],'token used':result[2]})
     except Exception as e:
         return jsonify({'error': str(e)})
 
