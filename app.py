@@ -101,7 +101,7 @@ def health_endpoint():
             end=time.time()
             result = remove_repeated_phrases_and_sentences(Predicted_Answer)
             result_ids = tokenizer(result, return_tensors="pt",truncation=True).input_ids
-            total_token=len(result_ids)
+            total_token=len(result_ids[0])
             execution_time=end-start
             return result,execution_time,total_token
 
@@ -110,7 +110,7 @@ def health_endpoint():
             end=time.time()
             execution_time=end-start
             result_ids = tokenizer(result, return_tensors="pt",truncation=True).input_ids
-            total_token=len(result_ids)
+            total_token=len(result_ids[0])
             return result,execution_time,total_token
 
         # Call the health function with the input text
