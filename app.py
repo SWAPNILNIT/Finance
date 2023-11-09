@@ -24,15 +24,15 @@ config = PeftConfig.from_pretrained(peft_model_id)
 # # load LLM model and tokenizer
 model_finance = AutoModelForSeq2SeqLM.from_pretrained(config.base_model_name_or_path)
 tokenizer = AutoTokenizer.from_pretrained(config.base_model_name_or_path)
-model = PeftModel.from_pretrained(model_finance, peft_model_id)
-model.eval()
+model_finance = PeftModel.from_pretrained(model_finance, peft_model_id)
+model_finance.eval()
 
 print("Peft model loaded")
 
-# Define the health endpoint
+# Define the finance endpoint
 @app.route('/finance', methods=['POST'])
 @cross_origin()
-def health_endpoint():
+def finance_endpoint():
     try:
         # Get the input text from the request JSON
         input_text = request.json['text']
@@ -96,7 +96,7 @@ def health_endpoint():
           start=time.time()
           if "yes" in domain.lower() :
             input_ids = tokenizer(question, return_tensors="pt",truncation=True).input_ids
-            instruct_model_outputs = model.generate(input_ids=input_ids, generation_config=GenerationConfig(max_new_tokens=200, num_beams=1))
+            instruct_model_outputs = model_finance.generate(input_ids=input_ids, generation_config=GenerationConfig(max_new_tokens=200, num_beams=1))
             Predicted_Answer = tokenizer.decode(instruct_model_outputs[0], skip_special_tokens=True)
             end=time.time()
             result = remove_repeated_phrases_and_sentences(Predicted_Answer)
